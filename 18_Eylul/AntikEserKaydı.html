@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Antik Eser Sicil ve Mühür Doğrulama</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            max-width: 450px;
+            margin: auto;
+            background: #fafafa;
+        }
+
+        .field {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        input:user-invalid {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        input:user-valid {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+
+        .err {
+            display: none;
+            color: #ef4444;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        input:user-invalid + .err {
+            display: block;
+        }
+
+        button {
+            width: 100%;
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h3>Antik Eser Sicil Kayıt Formu</h3>
+
+    <form action="/eser-kayit" method="POST">
+
+        <div class="field">
+
+            <label for="sicil">
+                Antik Eser Sicil Numarası (11 hane):
+            </label>
+
+            <input
+                type="text"
+                id="sicil"
+                name="sicil"
+                required
+                inputmode="numeric"
+                maxlength="11"
+                pattern="^[1-9]{1}[0-9]{9}[02468]{1}$"
+                title="11 haneli olmalı, 0 ile başlayamaz ve çift rakamla bitmelidir">
+
+            <span class="err">
+                Geçerli bir Antik Eser Sicil Numarası giriniz.
+            </span>
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="tel">
+                Eser Sorumlusu Kristal Vizör No'su
+            </label>
+
+            <input
+                type="tel"
+                id="tel"
+                name="phone"
+                required
+                pattern="^(\+90|0)?5[0-9]{2}[0-9]{3}[0-9]{2}[0-9]{2}$"
+                placeholder="05370633162">
+
+            <span class="err">
+                Geçerli bir Kristal Vizör numarası giriniz.
+            </span>
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="password">
+                Antik Mühür Şifresi
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                minlength="8"
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$">
+
+            <span class="err">
+                Mühür şifresi en az 8 karakter, büyük küçük harf,
+                rakam ve özel karakter içermelidir.
+            </span>
+
+        </div>
+
+        <button type="submit">
+            Antik Eseri Sicile Kaydet
+        </button>
+
+    </form>
+
+</body>
+
+</html>

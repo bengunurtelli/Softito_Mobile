@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>A̤ɐ͜ɨǣ́ꞎ͡ƣ Güvenli Mana Aktarımı</title>
+
+    <style>
+
+        body {
+            font-family: -apple-system, sans-serif;
+            padding: 16px;
+            background: #f1f5f9;
+        }
+
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 420px;
+            margin: auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1.5px solid #cba5e1;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+
+
+        .col {
+            flex: 1;
+        }
+
+
+        .slider-box {
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px dashed #94a3b8;
+        }
+
+
+        button[type="submit"] {
+            width: 100%;
+            background: #2563eb;
+            color: white;
+            padding: 12px;
+            border: none;
+        }
+
+
+        dialog {
+            border: none;
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 360px;
+            margin: auto;
+        }
+
+
+        dialog::backdrop {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <main class="card">
+
+        <h2>A̤ɐ͜ɨǣ́ꞎ͡ƣ Güvenli Mana Aktarımı</h2>
+
+        <p style="
+            font-size: 12px;
+            color: #cba5e1;
+            margin-bottom: 16px;
+        ">
+            <strong>Aktarılacak Mana: 1.250 Æ</strong>
+        </p>
+
+
+        <form
+            action="/mana-aktarimi"
+            method="POST"
+            oninput="outDongu.value=calcManaFlow(rngDongu.value)"
+        >
+
+
+            <!-- Mühür Sahibi -->
+
+            <div class="form-group">
+
+                <label for="aName">
+                    Mühür Sahibi:
+                </label>
+
+                <input
+                    type="text"
+                    id="aName"
+                    name="arcana_name"
+                    required
+                    placeholder="Aurelia Sennovar"
+                    autocapitalize="characters"
+                >
+
+            </div>
+
+
+            <!-- A̤ɐ͜ɨǣ́ꞎ͡ƣ Numarası -->
+
+            <div class="form-group">
+
+                <label for="aNum">
+                    A̤ɐ͜ɨǣ́ꞎ͡ƣ Mühür Numarası:
+                </label>
+
+                <input
+                    type="text"
+                    id="aNum"
+                    name="arcana_num"
+                    required
+                    inputmode="numeric"
+                    maxlength="19"
+                    placeholder="0000 0000 0000 0000"
+                >
+
+            </div>
+
+
+            <!-- Tarih + Gizli Rün -->
+
+            <div class="row">
+
+
+                <div class="col form-group">
+
+                    <label for="aExp">
+                        Mühür Geçerlilik Tarihi (AA/YY):
+                    </label>
+
+                    <input
+                        type="text"
+                        name="arcana_exp"
+                        id="aExp"
+                        required
+                        inputmode="numeric"
+                        maxlength="5"
+                        placeholder="12/24"
+                    >
+
+                </div>
+
+
+                <div class="col form-group">
+
+                    <label for="runeCode">
+                        Gizli Rün Kodu:
+                    </label>
+
+                    <input
+                        type="password"
+                        name="rune_code"
+                        id="runeCode"
+                        required
+                        inputmode="numeric"
+                        maxlength="3"
+                        placeholder="***"
+                    >
+
+                </div>
+
+
+            </div>
+
+
+            <!-- Aktarım Döngüsü -->
+
+            <div class="form-group slider-box">
+
+                <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 12px;
+                    font-weight: bold;
+                    margin-top: 12px;
+                ">
+
+                    <span>
+                        Aktarım Döngüsü:
+
+                        <span id="lblDongu">
+                            1 Döngü
+                        </span>
+                    </span>
+
+
+                    <output
+                        name="outDongu"
+                        id="outDongu"
+                    >
+                        1 x 1250.00 Æ
+                    </output>
+
+                </div>
+
+
+                <input
+                    type="range"
+                    id="rngDongu"
+                    min="1"
+                    max="6"
+                    value="1"
+
+                    oninput="
+                        document
+                        .getElementById('lblDongu')
+                        .innerText=this.value+' Döngü'
+                    "
+                >
+
+            </div>
+
+
+            <!-- Sözleşme -->
+
+            <p style="
+                font-size: 12px;
+                margin-bottom: 14px;
+            ">
+
+                <a
+                    href="javascript:void(0)"
+
+                    onclick="
+                        document
+                        .getElementById('modalMuhur')
+                        .showModal()
+                    "
+                >
+                    A̤ɐ͜ɨǣ́ꞎ͡ƣ Aktarım Mührü Sözleşmesi
+                </a>'ni okudum
+
+            </p>
+
+
+            <!-- Submit -->
+
+            <button type="submit">
+                Mana Aktarımını Başlat
+            </button>
+
+
+        </form>
+
+    </main>
+
+
+
+    <!-- Mühür Sözleşmesi Penceresi -->
+
+    <dialog id="modalMuhur">
+
+        <h4>
+            A̤ɐ͜ɨǣ́ꞎ͡ƣ Aktarım Güvenlik Protokolü
+        </h4>
+
+
+        <p style="
+            font-size: 12px;
+            color: black;
+        ">
+
+            A̤ɐ͜ɨǣ́ꞎ͡ƣ mühür bilgileriniz,
+            Arcana aktarım ağı tarafından
+            antik mühürleme protokolü üzerinden
+            koruma altındadır.
+
+        </p>
+
+
+        <button
+            onclick="
+                document
+                .getElementById('modalMuhur')
+                .close()
+            "
+
+            style="
+                margin-top: 10px;
+                width: 100%;
+            "
+        >
+            Kapat
+        </button>
+
+    </dialog>
+
+
+
+    <script>
+
+        function calcManaFlow(val) {
+
+            return val
+                + ' x '
+                + (1250 / val).toFixed(2)
+                + ' Æ';
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
