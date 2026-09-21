@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modern Video Player</title>
     <style>
-        * {box-sizing: border-box; margin: 0;padding: 0;}
-        body{
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: gray;
             color: black;
@@ -15,7 +21,8 @@
             flex-direction: column;
             align-items: center;
         }
-        .player-container{
+
+        .player-container {
             position: relative;
             width: 100%;
             max-width: 640px;
@@ -24,30 +31,34 @@
             background: #000;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
         }
-        video{
+
+        video {
             width: 100%;
             display: block;
         }
-        .custom-controls{
+
+        .custom-controls {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
             padding: 12px;
             display: flex;
             flex-direction: column;
             gap: 8px;
             transition: opacity 0.3s ease;
         }
-        .timeline-container{
+
+        .timeline-container {
             display: flex;
             align-items: center;
             gap: 10px;
             font-size: 12px;
             font-variant-numeric: tabular-nums;
         }
-        .progress-bar{
+
+        .progress-bar {
             flex: 1;
             -webkit-appearance: none;
             height: 5px;
@@ -56,7 +67,8 @@
             outline: none;
             cursor: pointer;
         }
-        .progress-bar::-webkit-slider-thumb{
+
+        .progress-bar::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
             width: 14px;
@@ -65,17 +77,21 @@
             background: #38bdf8;
             cursor: pointer;
         }
-        .button-group{
+
+        .button-group {
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
-        .left-controls, .right-controls{
+
+        .left-controls,
+        .right-controls {
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        button{
+
+        button {
             background: none;
             border: none;
             color: white;
@@ -86,27 +102,30 @@
             border-radius: 6px;
             background: rgba(255, 255, 255, 0.1);
         }
-        button:hover{
+
+        button:hover {
             background: rgba(255, 255, 255, 0.25);
         }
-        .speed-badge{
+
+        .speed-badge {
             background: #0284c7;
             color: white;
         }
     </style>
 </head>
+
 <body>
     <h2 style="margin-bottom: 16px;">Html5 Video Player</h2>
-    
+
     <div class="player-container" id="videoBox">
         <!-- playsinline : İosta tam ekran patlamasını engeller-->
         <!-- controlsList: Üç nokta menüsünden indirme özelliğini kaldırır-->
         <video id="myVideo" playsinline webkit-playsinline preload="metadata">
             <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
             <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm">
-            Tarayıcınız HTML5 video etiketini desteklemiyor
+            Tarayıcınız HTML5 video etiketini desteklemiyır
         </video>
-        
+
         <div class="custom-controls">
             <!--ilerleme çubuğu ve süre-->
             <div class="timeline-container">
@@ -114,7 +133,7 @@
                 <input type="range" id="progressBar" class="progress-bar" min="0" max="100" value="0">
                 <span id="durationTime">00:00</span>
             </div>
-            
+
             <div class="button-group">
                 <div class="left-controls">
                     <button id="btnPlay">Oynat</button>
@@ -126,7 +145,14 @@
                     <button id="btnFull">Tam Ekran</button>
                 </div>
             </div>
+
+
         </div>
+
+
+
+
+
     </div>
 
     <script>
@@ -137,10 +163,10 @@
         const btnPip = document.getElementById('btnPip');
         const btnFull = document.getElementById('btnFull');
         const progressBar = document.getElementById('progressBar');
-        const currentTimeEl = document.getElementById('currentTime');
+        const currentTimeEL = document.getElementById('currentTime');
         const durationTimeEl = document.getElementById('durationTime');
 
-        //1. Oynat / Duraklat
+        // 1.Play / Pause Yönetimi
         btnPlay.addEventListener('click', () => {
             if (video.paused) {
                 video.play();
@@ -155,7 +181,7 @@
         function formatTime(seconds) {
             const min = Math.floor(seconds / 60);
             const sec = Math.floor(seconds % 60);
-            return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+            return `${min.toString().padStart(2, '0')}:${(sec.toString().padStart(2, '0'))}`;
         }
 
         //3.Metadata Toplam Süreyi alma
@@ -165,7 +191,7 @@
 
         //4. video oynarken ilerleme çubuğu güncelleme
         video.addEventListener('timeupdate', () => {
-            currentTimeEl.innerText = formatTime(video.currentTime);
+            currentTimeEL.innerText = formatTime(video.currentTime);
             const progress = (video.currentTime / video.duration) * 100;
             progressBar.value = isNaN(progress) ? 0 : progress;
         });
@@ -199,12 +225,12 @@
                 } else {
                     await video.requestPictureInPicture();
                 }
+
             } catch (err) {
-                console.warn('Pip desteklemiyor veya izin verilmedi', err);
+                console.warn('Pİp desteklemiyor veya izin verilmedi', err);
             }
         });
-
-        // 9. Tam ekran
+        // 9. Tam ekran 
         btnFull.addEventListener('click', () => {
             const container = document.getElementById('videoBox');
             if (!document.fullscreenElement) {
@@ -213,6 +239,11 @@
                 document.exitFullscreen();
             }
         });
+
     </script>
+
+
+
 </body>
+
 </html>
