@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetKlinik Akıllı Dashboard</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        :root {
+            --bg: #090a0f;
+            --surface-glass: rgba(20, 20, 22, 0.65); /* Glassmorphism için şeffaf arkaplan */
+            --surface-solid: #141416; /* Skeleton için katı arkaplan */
+            --surface-hover: rgba(39, 39, 42, 0.85);
+            --border: rgba(63, 63, 70, 0.4);
+            --border-focus: #52525b;
+            --text: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --accent: #3b82f6; 
+            --success: #10b981;
+            --badge-bg: rgba(16, 185, 129, 0.1);
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            background-image: radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%),
+                              radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.05), transparent 25%);
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: var(--text);
+            padding: 32px 20px;
+        }
+
+        .header-area {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            background: var(--badge-bg);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--success);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            margin-bottom: 12px;
+        }
+
+        /* CSS Animasyon (Sürekli çalışan bildirim ikonu) */
+        .pulse-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulseAnim 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes pulseAnim {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.35;
+                transform: scale(1.5);
+                box-shadow: 0 0 8px var(--success);
+            }
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--text);
+        }
+
+        /*CSS Grid ve Mobile-First Yapı */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Mobil İçin 1 Sütun */
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr); /* Tablet İçin 2 Sütun */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .dashboard-grid {
+                /* auto-fit ve minmax kullanarak daha esnek bir yapı da kurulabilir */
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Masaüstü İçin 4 Sütun (max-width'e sığdığı kadar) */
+            }
+        }
+
+        /* Glassmorphism Efekti */
+        .glass-card {
+            background: var(--surface-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 190px;
+            /* 5. Zorunlu Kriter: Transition ile yumuşatılmış geçiş */
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                        border-color 0.3s ease, 
+                        box-shadow 0.3s ease, 
+                        background-color 0.3s ease;
+        }
+
+        /* Hover Efekti */
+        .glass-card:hover {
+            transform: translateY(-6px);
+            background: var(--surface-hover);
+            border-color: var(--border-focus);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+        }
+
+        .card-val {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin: 16px 0;
+            color: var(--text);
+        }
+
+        .card-footer {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .trend-up {
+            color: var(--success);
+        }
+
+        /* Skeleton Loading Animasyonu */
+        .skeleton-card {
+            background: var(--surface-solid);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 190px;
+        }
+
+        .skeleton-line {
+            border-radius: 8px;
+            background: linear-gradient(90deg, #1c1c1f 25%, #27272a 50%, #1c1c1f 75%);
+            background-size: 200% 100%;
+            animation: skeletonShimmer 1.5s infinite linear;
+        }
+
+        .skeleton-top { height: 20px; width: 40%; }
+        .skeleton-icon { height: 44px; width: 44px; border-radius: 12px; }
+        .skeleton-val { height: 36px; width: 70%; margin: 16px 0; }
+        .skeleton-footer { height: 16px; width: 50%; }
+
+        @keyframes skeletonShimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-area">
+        <div class="header-badge">
+            <span class="pulse-dot"></span>
+            <span>Sistem Senkronize</span>
+        </div>
+        <h1>VetKlinik Panel</h1>
+        <p style="color:var(--text-muted);margin-top: 8px;">
+            CSS Grid Auto-fit + Glassmorphism & Skeleton UI
+        </p>
+    </div>
+
+    <div class="dashboard-grid">
+        <!--: Glassmorphism + Hover -->
+        <div class="glass-card">
+            <div class="card-top">
+                <span style="font-size: 12px;color: var(--text-muted);text-transform: uppercase;letter-spacing: 0.5px;">
+                    Aktif Randevular
+                </span>
+                <div class="card-icon">🐾</div>
+            </div>
+            <div class="card-val">24</div>
+            <div class="card-footer">
+                <span class="trend-up">↑ 4</span> Bekleyen muayene
+            </div>
+        </div>
+
+        <!-- Glassmorphism + Hover -->
+        <div class="glass-card">
+            <div class="card-top">
+                <span style="font-size: 12px;color: var(--text-muted);text-transform: uppercase;letter-spacing: 0.5px;">
+                    Bugünkü Ciro
+                </span>
+                <div class="card-icon">💳</div>
+            </div>
+            <div class="card-val">12.450 ₺</div>
+            <div class="card-footer">
+                <span class="trend-up">↑ %12</span> dünden fazla
+            </div>
+        </div>
+
+        <!-- Glassmorphism + Hover -->
+        <div class="glass-card">
+            <div class="card-top">
+                <span style="font-size: 12px;color: var(--text-muted);text-transform: uppercase;letter-spacing: 0.5px;">
+                    Kritik Stok
+                </span>
+                <div class="card-icon" style="color: var(--accent);">💉</div>
+            </div>
+            <div class="card-val">3 Ürün</div>
+            <div class="card-footer" style="color: var(--accent);">
+                Aşı stokları azalıyor
+            </div>
+        </div>
+
+        <!-- LOADING -->
+        <div class="skeleton-card">
+            <div class="card-top">
+                <div class="skeleton-line skeleton-top"></div>
+                <div class="skeleton-line skeleton-icon"></div>
+            </div>
+            <div class="skeleton-line skeleton-val"></div>
+            <div class="skeleton-line skeleton-footer"></div>
+        </div>
+    </div>
+</body>
+</html>
