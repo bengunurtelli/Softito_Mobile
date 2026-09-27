@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Çılgın Satış</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #172b4d;
+        }
+
+        .container {
+            width: 94%;
+            max-width: 1450px;
+            margin: auto;
+        }
+
+        /* Ust menu */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 18px 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 35px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #172b4d;
+            white-space: nowrap;
+        }
+
+        .logo span {
+            color: #ff5a00;
+        }
+
+        .logo-icon {
+            color: #ff5a00;
+            margin-right: 6px;
+        }
+
+        .slogan {
+            color: #8492a6;
+            font-size: 14px;
+            border-left: 1px solid #ddd;
+            padding-left: 15px;
+        }
+
+        .search-box {
+            display: flex;
+            flex: 1;
+            max-width: 650px;
+            margin-left: auto;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #d9e0e8;
+            border-radius: 12px 0 0 12px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-box button {
+            width: 60px;
+            border: none;
+            background: #ff5a00;
+            color: white;
+            border-radius: 0 12px 12px 0;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .menu-icon {
+            font-size: 25px;
+            color: #172b4d;
+        }
+
+        /* Kampanya alani */
+        .banner {
+            margin-top: 20px;
+            min-height: 210px;
+            border-radius: 18px;
+            padding: 35px;
+            background: linear-gradient(110deg, #fff0e3, #ffd2a8, #ff9d4d);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .banner-text {
+            max-width: 500px;
+        }
+
+        .banner-small {
+            color: #ff5a00;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .banner h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .banner p {
+            color: #56657a;
+            margin-bottom: 20px;
+        }
+
+        .banner button {
+            background: #ff5a00;
+            color: white;
+            border: none;
+            padding: 13px 22px;
+            border-radius: 9px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .banner-products {
+            font-size: 90px;
+            letter-spacing: 15px;
+        }
+
+        /* Bilgi kartlari */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .kpi-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .kpi-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            background: #fff0df;
+        }
+
+        .kpi-card:nth-child(2) .kpi-icon {
+            background: #e3f1ff;
+        }
+
+        .kpi-card:nth-child(3) .kpi-icon {
+            background: #ddf8e8;
+        }
+
+        .kpi-title {
+            color: #607089;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .kpi-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .kpi-info {
+            color: #16a36a;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        /* Ana alan */
+        .main-area {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        /* Filtreler */
+        .filters {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 20px;
+            height: fit-content;
+        }
+
+        .filters h2 {
+            font-size: 19px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dce3eb;
+            border-radius: 9px;
+            outline: none;
+            background: #fff;
+        }
+
+        .filter-button {
+            width: 100%;
+            background: #ff5a00;
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 9px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Urunler */
+        .products-section {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 15px;
+        }
+
+        .products-top {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 12px;
+        }
+
+        .sort-select {
+            padding: 10px 15px;
+            border: 1px solid #dce3eb;
+            border-radius: 9px;
+            background: white;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .product-card {
+            border: 1px solid #e0e5eb;
+            border-radius: 13px;
+            overflow: hidden;
+            background: white;
+            transition: 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.09);
+        }
+
+        .product-image {
+            height: 190px;
+            background: #f1f3f6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.3s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.04);
+        }
+
+        .category-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            padding: 5px 9px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            background: #ff8a00;
+        }
+
+        .product-content {
+            padding: 13px;
+        }
+
+        .product-name {
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .rating {
+            color: #ffad00;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .rating span {
+            color: #8995a7;
+        }
+
+        .price-stock {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .price {
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .stock {
+            color: #12a765;
+            font-size: 12px;
+        }
+
+        .product-buttons {
+            display: flex;
+            gap: 7px;
+        }
+
+        .add-cart {
+            flex: 1;
+            border: none;
+            background: #ff5a00;
+            color: white;
+            padding: 11px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .delete-button {
+            width: 42px;
+            border: 1px solid #e0e5eb;
+            background: white;
+            color: #ef4444;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Yeni urun */
+        .add-product {
+            margin-top: 20px;
+            margin-bottom: 40px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .add-product h2 {
+            font-size: 19px;
+            margin-bottom: 20px;
+        }
+
+        .add-form {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr auto;
+            gap: 10px;
+        }
+
+        .add-form input,
+        .add-form select {
+            padding: 12px;
+            border: 1px solid #dce3eb;
+            border-radius: 8px;
+        }
+
+        .add-form button {
+            border: none;
+            background: #ff5a00;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Tablet */
+        @media (max-width: 1100px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .main-area {
+                grid-template-columns: 250px 1fr;
+            }
+        }
+
+        /* Kucuk ekran */
+        @media (max-width: 850px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            .slogan {
+                display: none;
+            }
+
+            .search-box {
+                order: 3;
+                width: 100%;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-area {
+                grid-template-columns: 1fr;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .add-form {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Telefon */
+        @media (max-width: 550px) {
+            .banner-products {
+                display: none;
+            }
+
+            .banner h1 {
+                font-size: 26px;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .add-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Ust menu -->
+    <header class="header">
+        <div class="container header-content">
+
+            <div class="logo">
+                <span class="logo-icon">🛒</span>Çılgın<span>Satış</span>
+            </div>
+
+            <div class="slogan">
+                Hayalindeki urunler, simdi seninle!
+            </div>
+
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Urun, kategori veya marka ara..."
+                >
+
+                <button>🔍</button>
+            </div>
+
+            <div class="menu-icon">
+                ☰
+            </div>
+
+        </div>
+    </header>
+
+
+    <main class="container">
+
+        <!-- Kampanya alani -->
+        <section class="banner">
+
+            <div class="banner-text">
+
+                <div class="banner-small">
+                    IYI BIR ALISVERIS DENEYIMI
+                </div>
+
+                <h1>
+                    Aradigin Her Sey Çılgın Satış'ta!
+                </h1>
+
+                <p>
+                    Genis urun secenekleri, uygun fiyatlar ve kolay alisveris.
+                </p>
+
+                <button>
+                    Alisverise Basla →
+                </button>
+
+            </div>
+
+            <div class="banner-products">
+                🎧 💻 📱
+            </div>
+
+        </section>
+
+
+        <!-- Bilgi kartlari -->
+        <section class="kpi-grid">
+
+            <div class="kpi-card">
+
+                <div class="kpi-icon">
+                    📦
+                </div>
+
+                <div>
+
+                    <div class="kpi-title">
+                        Toplam Urun
+                    </div>
+
+                    <div class="kpi-value" id="productCount">
+                        0
+                    </div>
+
+                    <div class="kpi-info">
+                        ↑ Urun listesi guncel
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="kpi-card">
+
+                <div class="kpi-icon">
+                    💰
+                </div>
+
+                <div>
+
+                    <div class="kpi-title">
+                        Ortalama Fiyat
+                    </div>
+
+                    <div class="kpi-value" id="avgPrice">
+                        0 ₺
+                    </div>
+
+                    <div class="kpi-info">
+                        ↑ Guncel urun fiyatlari
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="kpi-card">
+
+                <div class="kpi-icon">
+                    🛍️
+                </div>
+
+                <div>
+
+                    <div class="kpi-title">
+                        Sepet Tutari
+                    </div>
+
+                    <div class="kpi-value" id="cartTotal">
+                        0 ₺
+                    </div>
+
+                    <div class="kpi-info" id="cartInfo">
+                        0 urun sepette
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Ana alan -->
+        <section class="main-area">
+
+            <!-- Filtreler -->
+            <aside class="filters">
+
+                <h2>
+                    🔎 Filtreler
+                </h2>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Urun Adi
+                    </label>
+
+                    <input
+                        type="text"
+                        id="filterSearch"
+                        placeholder="Urun ara..."
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Kategori
+                    </label>
+
+                    <select id="categoryFilter">
+
+                        <option value="all">
+                            Tum Kategoriler
+                        </option>
+
+                        <option value="Elektronik">
+                            Elektronik
+                        </option>
+
+                        <option value="Telefon">
+                            Telefon
+                        </option>
+
+                        <option value="Bilgisayar">
+                            Bilgisayar
+                        </option>
+
+                        <option value="Ev Yasam">
+                            Ev Yasam
+                        </option>
+
+                        <option value="Moda">
+                            Moda
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        En Fazla Fiyat
+                    </label>
+
+                    <input
+                        type="number"
+                        id="maxPrice"
+                        value="50000"
+                    >
+
+                </div>
+
+
+                <button
+                    class="filter-button"
+                    id="filterButton"
+                >
+                    Filtreleri Uygula
+                </button>
+
+            </aside>
+
+
+            <!-- Urunler -->
+            <div class="products-section">
+
+                <div class="products-top">
+
+                    <select
+                        class="sort-select"
+                        id="sortSelect"
+                    >
+
+                        <option value="default">
+                            Varsayilan Siralama
+                        </option>
+
+                        <option value="low">
+                            Fiyat: Dusukten Yuksege
+                        </option>
+
+                        <option value="high">
+                            Fiyat: Yuksekten Dusuge
+                        </option>
+
+                        <option value="name">
+                            Isme Gore
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div
+                    class="product-grid"
+                    id="productContainer"
+                >
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Yeni urun ekleme -->
+        <section class="add-product">
+
+            <h2>
+                ➕ Yeni Urun Ekle
+            </h2>
+
+
+            <form
+                class="add-form"
+                id="productForm"
+            >
+
+                <input
+                    type="text"
+                    id="productName"
+                    placeholder="Urun adi"
+                    required
+                >
+
+
+                <select
+                    id="productCategory"
+                    required
+                >
+
+                    <option value="Elektronik">
+                        Elektronik
+                    </option>
+
+                    <option value="Telefon">
+                        Telefon
+                    </option>
+
+                    <option value="Bilgisayar">
+                        Bilgisayar
+                    </option>
+
+                    <option value="Ev Yasam">
+                        Ev Yasam
+                    </option>
+
+                    <option value="Moda">
+                        Moda
+                    </option>
+
+                </select>
+
+
+                <input
+                    type="number"
+                    id="productPrice"
+                    placeholder="Fiyat"
+                    required
+                >
+
+
+                <input
+                    type="number"
+                    id="productStock"
+                    placeholder="Stok"
+                    required
+                >
+
+
+                <button type="submit">
+                    Urun Ekle
+                </button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        // Urunlerin tutuldugu dizi
+        let products = [
+
+            {
+                id: 1,
+                name: "Kablosuz Kulaklik",
+                category: "Elektronik",
+                price: 2499,
+                stock: 25,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=700&q=80"
+            },
+
+            {
+                id: 2,
+                name: "Akilli Telefon",
+                category: "Telefon",
+                price: 18999,
+                stock: 12,
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=700&q=80"
+            },
+
+            {
+                id: 3,
+                name: "Laptop",
+                category: "Bilgisayar",
+                price: 32999,
+                stock: 8,
+                rating: 4.6,
+                image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=700&q=80"
+            },
+
+            {
+                id: 5,
+                name: "Spor Ayakkabi",
+                category: "Moda",
+                price: 2899,
+                stock: 30,
+                rating: 4.4,
+                image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80"
+            },
+
+            {
+                id: 6,
+                name: "Bluetooth Hoparlor",
+                category: "Elektronik",
+                price: 1799,
+                stock: 20,
+                rating: 4.3,
+                image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=700&q=80"
+            },
+
+            {
+                id: 7,
+                name: "Akilli Saat",
+                category: "Elektronik",
+                price: 4999,
+                stock: 14,
+                rating: 4.6,
+                image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80"
+            },
+
+        ];
+
+
+        // Sepetteki urunler
+        let cart = [];
+
+
+        // HTML elemanlarini seciyoruz
+        const productContainer =
+            document.getElementById("productContainer");
+
+        const productCount =
+            document.getElementById("productCount");
+
+        const avgPrice =
+            document.getElementById("avgPrice");
+
+        const cartTotal =
+            document.getElementById("cartTotal");
+
+        const cartInfo =
+            document.getElementById("cartInfo");
+
+        const filterSearch =
+            document.getElementById("filterSearch");
+
+        const categoryFilter =
+            document.getElementById("categoryFilter");
+
+        const maxPrice =
+            document.getElementById("maxPrice");
+
+        const sortSelect =
+            document.getElementById("sortSelect");
+
+        const productForm =
+            document.getElementById("productForm");
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+
+        // Bilgi kartlarini guncelliyoruz
+        const updateKPIs = (dataList) => {
+
+            productCount.textContent =
+                dataList.length;
+
+
+            if (dataList.length === 0) {
+
+                avgPrice.textContent = "0 ₺";
+
+                return;
+            }
+
+
+            const total =
+                dataList.reduce(
+                    (acc, curr) => acc + curr.price,
+                    0
+                );
+
+
+            const average =
+                total / dataList.length;
+
+
+            avgPrice.textContent =
+                `${Math.round(average).toLocaleString("tr-TR")} ₺`;
+
+        };
+
+
+        // Sepet bilgisini guncelliyoruz
+        const updateCart = () => {
+
+            const total =
+                cart.reduce(
+                    (acc, curr) => acc + curr.price,
+                    0
+                );
+
+
+            cartTotal.textContent =
+                `${total.toLocaleString("tr-TR")} ₺`;
+
+
+            cartInfo.textContent =
+                `${cart.length} urun sepette`;
+
+        };
+
+
+        // Urunleri ekrana getiriyoruz
+        const renderProducts = () => {
+
+            let dataList = [...products];
+
+
+            // Arama filtresi
+            const searchText =
+                filterSearch.value.toLowerCase();
+
+            const headerSearch =
+                searchInput.value.toLowerCase();
+
+            const searchValue =
+                searchText || headerSearch;
+
+
+            if (searchValue) {
+
+                dataList =
+                    dataList.filter(product =>
+                        product.name
+                            .toLowerCase()
+                            .includes(searchValue) ||
+
+                        product.category
+                            .toLowerCase()
+                            .includes(searchValue)
+                    );
+
+            }
+
+
+            // Kategori filtresi
+            if (categoryFilter.value !== "all") {
+
+                dataList =
+                    dataList.filter(product =>
+                        product.category ===
+                        categoryFilter.value
+                    );
+
+            }
+
+
+            // Fiyat filtresi
+            const priceLimit =
+                Number(maxPrice.value);
+
+
+            if (priceLimit > 0) {
+
+                dataList =
+                    dataList.filter(product =>
+                        product.price <= priceLimit
+                    );
+
+            }
+
+
+            // Dusukten yuksege siralama
+            if (sortSelect.value === "low") {
+
+                dataList.sort(
+                    (a, b) => a.price - b.price
+                );
+
+            }
+
+
+            // Yuksekten dusuge siralama
+            if (sortSelect.value === "high") {
+
+                dataList.sort(
+                    (a, b) => b.price - a.price
+                );
+
+            }
+
+
+            // Isme gore siralama
+            if (sortSelect.value === "name") {
+
+                dataList.sort(
+                    (a, b) =>
+                        a.name.localeCompare(
+                            b.name,
+                            "tr"
+                        )
+                );
+
+            }
+
+
+            // Eski kartlari temizliyoruz
+            productContainer.innerHTML = "";
+
+
+            // Urun kartlarini olusturuyoruz
+            dataList.forEach(product => {
+
+                const article =
+                    document.createElement("article");
+
+
+                article.className =
+                    "product-card";
+
+
+                article.dataset.id =
+                    product.id;
+
+
+                article.innerHTML = `
+
+                    <div class="product-image">
+
+                        <img
+                            src="${product.image}"
+                            alt="${product.name}"
+                        >
+
+                        <span class="category-badge">
+                            ${product.category}
+                        </span>
+
+                    </div>
+
+
+                    <div class="product-content">
+
+                        <div class="product-name">
+                            ${product.name}
+                        </div>
+
+
+                        <div class="rating">
+
+                            ★★★★★
+
+                            <span>
+                                (${product.rating})
+                            </span>
+
+                        </div>
+
+
+                        <div class="price-stock">
+
+                            <div class="price">
+                                ${product.price.toLocaleString("tr-TR")} ₺
+                            </div>
+
+                            <div class="stock">
+                                Stok: ${product.stock}
+                            </div>
+
+                        </div>
+
+
+                        <div class="product-buttons">
+
+                            <button
+                                class="add-cart"
+                                data-action="cart"
+                            >
+                                🛒 Sepete Ekle
+                            </button>
+
+
+                            <button
+                                class="delete-button"
+                                data-action="delete"
+                            >
+                                🗑
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                productContainer.appendChild(article);
+
+            });
+
+
+            // Urun sayisini guncelliyoruz
+            updateKPIs(dataList);
+
+        };
+
+
+        // Filtreleme butonu
+        document
+            .getElementById("filterButton")
+            .addEventListener("click", () => {
+
+                renderProducts();
+
+            });
+
+
+        // Sol taraftaki arama
+        filterSearch.addEventListener(
+            "input",
+            () => {
+
+                renderProducts();
+
+            }
+        );
+
+
+        // Ustteki arama
+        searchInput.addEventListener(
+            "input",
+            () => {
+
+                renderProducts();
+
+            }
+        );
+
+
+        // Siralama
+        sortSelect.addEventListener(
+            "change",
+            () => {
+
+                renderProducts();
+
+            }
+        );
+
+
+        // Urun kartlarindaki butonlar
+        productContainer.addEventListener(
+            "click",
+            (event) => {
+
+                const button =
+                    event.target.closest("button");
+
+
+                if (!button) {
+
+                    return;
+
+                }
+
+
+                const item =
+                    button.closest(".product-card");
+
+
+                const id =
+                    Number(item.dataset.id);
+
+
+                // Sepete ekleme
+                if (
+                    button.dataset.action === "cart"
+                ) {
+
+                    const product =
+                        products.find(
+                            product =>
+                                product.id === id
+                        );
+
+
+                    if (product) {
+
+                        cart.push(product);
+
+                        updateCart();
+
+                    }
+
+                }
+
+
+                // Urun silme
+                if (
+                    button.dataset.action === "delete"
+                ) {
+
+                    products =
+                        products.filter(
+                            product =>
+                                product.id !== id
+                        );
+
+
+                    renderProducts();
+
+                }
+
+            }
+        );
+
+
+        // Yeni urun ekleme
+        productForm.addEventListener(
+            "submit",
+            (event) => {
+
+                event.preventDefault();
+
+
+                const name =
+                    document.getElementById(
+                        "productName"
+                    ).value;
+
+
+                const category =
+                    document.getElementById(
+                        "productCategory"
+                    ).value;
+
+
+                const price =
+                    Number(
+                        document.getElementById(
+                            "productPrice"
+                        ).value
+                    );
+
+
+                const stock =
+                    Number(
+                        document.getElementById(
+                            "productStock"
+                        ).value
+                    );
+
+
+                const newProduct = {
+
+                    id: Date.now(),
+
+                    name: name,
+
+                    category: category,
+
+                    price: price,
+
+                    stock: stock,
+
+                    rating: 4.5,
+
+                    image:
+                        "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=700&q=80"
+
+                };
+
+
+                products.push(newProduct);
+
+
+                productForm.reset();
+
+
+                renderProducts();
+
+            }
+        );
+
+
+        // Sayfa ilk acildiginda calisiyor
+        renderProducts();
+
+        updateCart();
+
+    </script>
+
+</body>
+
+</html>

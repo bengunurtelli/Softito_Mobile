@@ -1,0 +1,973 @@
+
+<!DOCTYPE html>
+<!-- HTML5 dokumanini belirtir -->
+
+<html lang="en">
+<!-- Sayfanin HTML baslangicini belirtir -->
+
+<head>
+    <!-- Sayfanin baslik ve ayar kismi -->
+
+    <meta charset="UTF-8">
+    <!-- Turkce karakterlerin dogru gorunmesini saglar -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Sayfanin mobil cihazlara uyumunu saglar -->
+
+    <title>Sipariş & Gelir Kokpit Dashboard</title>
+    <!-- Sayfanin tarayicidaki basligini belirler -->
+
+    <style>
+        /* CSS kodlarinin baslangici */
+
+        :root {
+            /* Renk ve yazi degiskenleri */
+
+            --bg: #f8f7f4;
+            /* Genel arka plan rengini tutar */
+
+            --card: #ffffff;
+            /* Kartlarin arka plan rengini tutar */
+
+            --border: #e6e5df;
+            /* Kenarlik rengini tutar */
+
+            --text: #181716;
+            /* Ana yazi rengini tutar */
+
+            --muted: #6b6963;
+            /* Soluk yazi rengini tutar */
+
+            --clay: #c85a32;
+            /* Ana buton rengini tutar */
+
+            --clay-hover: #b04e29;
+            /* Butonun uzerine gelinceki rengi tutar */
+
+            --font-main: 'Plus Jakarta Sans', system-ui, sans-serif;
+            /* Ana yazi tipini belirler */
+
+            --font-mono: 'JetBrains Mono', monospace;
+            /* Kod benzeri yazilar icin yazi tipini belirler */
+        }
+
+        * {
+            /* Tum HTML elemanlarini etkiler */
+
+            box-sizing: border-box;
+            /* Padding ve border hesaplamasini kolaylastirir */
+
+            margin: 0;
+            /* Varsayilan dis boslugu kaldirir */
+
+            padding: 0;
+            /* Varsayilan ic boslugu kaldirir */
+        }
+
+        body {
+            /* Sayfanin genel govdesini duzenler */
+
+            background: var(--bg);
+            /* Arka plan rengini verir */
+
+            color: var(--text);
+            /* Yazi rengini belirler */
+
+            font-family: var(--font-main);
+            /* Kullanilacak yazi tipini belirler */
+
+            padding: 36px 16px;
+            /* Sayfanin ic bosluklarini ayarlar */
+
+            line-height: 1.5;
+            /* Satirlar arasindaki boslugu ayarlar */
+        }
+
+        .kokpit {
+            /* Ana kokpit alanini duzenler */
+
+            max-width: 960px;
+            /* Alanin maksimum genisligini belirler */
+
+            margin: 0 auto;
+            /* Alani yatayda ortalar */
+        }
+
+        /* Header & KPI */
+        /* Baslik ve KPI bolumu */
+
+        .header {
+            /* Ust baslik alanini duzenler */
+
+            margin-bottom: 24px;
+            /* Alt tarafta bosluk birakir */
+
+            padding-bottom: 16px;
+            /* Alt ic boslugu ayarlar */
+
+            border-bottom: 1px solid var(--border);
+            /* Basligin altina cizgi ekler */
+        }
+
+        .header__tag {
+            /* Baslik ustundeki etiketi duzenler */
+
+            font-size: 11px;
+            /* Yazi boyutunu belirler */
+
+            text-transform: uppercase;
+            /* Yaziyi buyuk harfe cevirir */
+
+            letter-spacing: 0.12em;
+            /* Harfler arasindaki boslugu ayarlar */
+
+            color: var(--clay);
+            /* Etiket rengini belirler */
+
+            font-weight: 700;
+            /* Yaziyi kalin yapar */
+        }
+
+        .header__title {
+            /* Ana basligi duzenler */
+
+            font-size: 26px;
+            /* Baslik boyutunu belirler */
+
+            font-weight: 700;
+            /* Basligi kalin yapar */
+
+            margin-top: 2px;
+            /* Ust tarafta az bosluk birakir */
+        }
+
+        .kpi-grid {
+            /* KPI kartlarini yan yana dizer */
+
+            display: grid;
+            /* Grid yapisini aktif eder */
+
+            grid-template-columns: repeat(3, 1fr);
+            /* Uc esit sutun olusturur */
+
+            gap: 14px;
+            /* Kartlar arasinda bosluk birakir */
+
+            margin-bottom: 24px;
+            /* Alt tarafta bosluk birakir */
+        }
+
+        .kpi-card {
+            /* KPI kartlarini duzenler */
+
+            background: var(--card);
+            /* Kart arka planini belirler */
+
+            border: 1px solid var(--border);
+            /* Kart kenarligini ekler */
+
+            border-radius: 8px;
+            /* Kart koselerini yuvarlar */
+
+            padding: 14px 18px;
+            /* Kartin ic bosluklarini ayarlar */
+        }
+
+        .kpi-card span {
+            /* KPI kartlarindaki aciklamalari duzenler */
+
+            font-size: 12px;
+            /* Yazi boyutunu ayarlar */
+
+            color: var(--muted);
+            /* Yaziyi daha soluk gosterir */
+
+            font-weight: 600;
+            /* Yaziyi biraz kalinlastirir */
+        }
+
+        .kpi-card h3 {
+            /* KPI degerlerini duzenler */
+
+            font-size: 22px;
+            /* Deger yazi boyutunu belirler */
+
+            font-weight: 700;
+            /* Degeri kalin yapar */
+
+            font-family: var(--font-mono);
+            /* Fiyatlar icin farkli yazi tipi kullanir */
+
+            margin-top: 4px;
+            /* Ust tarafta bosluk birakir */
+        }
+
+        /* Layout */
+        /* Sayfanin ana yerlesim bolumu */
+
+        .layout {
+            /* Form ve liste alanini duzenler */
+
+            display: grid;
+            /* Grid yapisini kullanir */
+
+            grid-template-columns: 320px 1fr;
+            /* Sol alani ve sag alani belirler */
+
+            gap: 24px;
+            /* Iki alan arasinda bosluk birakir */
+        }
+
+        @media (max-width: 768px) {
+            /* Ekran kuculunce uygulanacak ayarlar */
+
+            .layout,
+            .kpi-grid {
+                /* Iki ana bolumu birlikte etkiler */
+
+                grid-template-columns: 1fr;
+                /* Alanlari alt alta getirir */
+            }
+        }
+
+        /* Form & Panel */
+        /* Form ve panel stilleri */
+
+        .panel {
+            /* Panel gorunumunu duzenler */
+
+            background: var(--card);
+            /* Panel arka planini belirler */
+
+            border: 1px solid var(--border);
+            /* Panel kenarligini ekler */
+
+            border-radius: 10px;
+            /* Panel koselerini yuvarlar */
+
+            padding: 20px;
+            /* Panel ic boslugunu belirler */
+        }
+
+        .panel h4 {
+            /* Panel basligini duzenler */
+
+            font-size: 15px;
+            /* Baslik boyutunu belirler */
+
+            font-weight: 700;
+            /* Basligi kalin yapar */
+
+            margin-bottom: 14px;
+            /* Baslik altinda bosluk birakir */
+
+            padding-bottom: 8px;
+            /* Baslik altinda ic bosluk birakir */
+
+            border-bottom: 1px solid var(--border);
+            /* Basligin altina cizgi ekler */
+        }
+
+        .field {
+            /* Form alanlarini duzenler */
+
+            margin-bottom: 12px;
+            /* Alanlar arasinda bosluk birakir */
+        }
+
+        .field label {
+            /* Form etiketlerini duzenler */
+
+            display: block;
+            /* Etiketi yeni satira alir */
+
+            font-size: 12px;
+            /* Yazi boyutunu belirler */
+
+            font-weight: 600;
+            /* Yaziyi kalinlastirir */
+
+            margin-bottom: 4px;
+            /* Etiket ile input arasinda bosluk birakir */
+        }
+
+        .field input,
+        .field select {
+            /* Input ve select alanlarini birlikte duzenler */
+
+            width: 100%;
+            /* Alanin tamamini kaplar */
+
+            padding: 8px 10px;
+            /* Ic bosluk verir */
+
+            font-size: 13px;
+            /* Yazi boyutunu belirler */
+
+            font-family: inherit;
+            /* Ust elemandaki yazi tipini kullanir */
+
+            background: var(--bg);
+            /* Alan arka planini belirler */
+
+            border: 1px solid var(--border);
+            /* Alan kenarligini ekler */
+
+            border-radius: 6px;
+            /* Koseleri yuvarlar */
+        }
+
+        .field input:focus,
+        .field select:focus {
+            /* Input secildiginde uygulanir */
+
+            outline: none;
+            /* Varsayilan dis cizgiyi kaldirir */
+
+            border-color: var(--clay);
+            /* Kenarlik rengini degistirir */
+
+            background: #fff;
+            /* Arka plani beyaz yapar */
+        }
+
+        .btn-submit {
+            /* Kaydet butonunu duzenler */
+
+            width: 100%;
+            /* Butonun genisligini ayarlar */
+
+            background: var(--clay);
+            /* Buton arka planini belirler */
+
+            color: #fff;
+            /* Buton yazisini beyaz yapar */
+
+            border: none;
+            /* Kenarligi kaldirir */
+
+            padding: 10px;
+            /* Buton ic boslugunu ayarlar */
+
+            font-size: 13px;
+            /* Buton yazisinin boyutunu belirler */
+
+            font-weight: 600;
+            /* Buton yazisini kalinlastirir */
+
+            border-radius: 6px;
+            /* Buton koselerini yuvarlar */
+
+            cursor: pointer;
+            /* Fare imlecini buton seklinde gosterir */
+
+            margin-top: 6px;
+            /* Ust tarafta bosluk birakir */
+        }
+
+        .btn-submit:hover {
+            /* Fare butonun uzerine gelince calisir */
+
+            background: var(--clay-hover);
+            /* Buton rengini degistirir */
+        }
+
+        /* Liste & Filtre */
+        /* Liste ve filtre stilleri */
+
+        .filter-bar {
+            /* Filtre alanini duzenler */
+
+            display: flex;
+            /* Elemanlari yan yana dizer */
+
+            gap: 10px;
+            /* Elemanlar arasinda bosluk birakir */
+
+            margin-bottom: 14px;
+            /* Listenin ustunde bosluk birakir */
+        }
+
+        .order-list {
+            /* Siparis listesini duzenler */
+
+            display: flex;
+            /* Flex yapisini kullanir */
+
+            flex-direction: column;
+            /* Elemanlari alt alta dizer */
+
+            gap: 10px;
+            /* Siparisler arasinda bosluk birakir */
+        }
+
+        .order-item {
+            /* Her siparis kartini duzenler */
+
+            background: var(--bg);
+            /* Kart arka planini belirler */
+
+            border: 1px solid var(--border);
+            /* Kart kenarligini ekler */
+
+            border-radius: 6px;
+            /* Kart koselerini yuvarlar */
+
+            padding: 12px 14px;
+            /* Kart ic bosluklarini ayarlar */
+
+            display: flex;
+            /* Icerigi flex yapar */
+
+            justify-content: space-between;
+            /* Icerikleri iki yana ayirir */
+
+            align-items: center;
+            /* Elemanlari dikeyde ortalar */
+        }
+
+        .order-item h5 {
+            /* Urun adini duzenler */
+
+            font-size: 13px;
+            /* Urun adi boyutunu belirler */
+
+            font-weight: 600;
+            /* Urun adini kalinlastirir */
+        }
+
+        .order-item p {
+            /* Fiyat bilgisini duzenler */
+
+            font-size: 12px;
+            /* Yazi boyutunu belirler */
+
+            color: var(--muted);
+            /* Yaziyi soluk renkte gosterir */
+        }
+
+        .meta-box {
+            /* Kategori ve sil butonunu duzenler */
+
+            display: flex;
+            /* Elemanlari yan yana dizer */
+
+            align-items: center;
+            /* Elemanlari dikeyde ortalar */
+
+            gap: 10px;
+            /* Elemanlar arasinda bosluk birakir */
+        }
+
+        .badge {
+            /* Kategori etiketinin genel gorunumu */
+
+            font-size: 11px;
+            /* Etiket yazi boyutunu belirler */
+
+            padding: 2px 7px;
+            /* Etiket ic boslugunu ayarlar */
+
+            border-radius: 4px;
+            /* Etiket koselerini yuvarlar */
+
+            font-weight: 600;
+            /* Etiket yazisini kalinlastirir */
+
+            background: #fef3c7;
+            /* Etiket arka plan rengini belirler */
+
+            color: #92400e;
+            /* Etiket yazi rengini belirler */
+
+            font-family: var(--font-mono);
+            /* Etiket icin yazi tipi belirler */
+        }
+
+        .badge--mobilya {
+            /* Mobilya kategorisinin rengini belirler */
+
+            background: #e0e7ff;
+            /* Arka plan rengini belirler */
+
+            color: #3730a3;
+            /* Yazi rengini belirler */
+        }
+
+        .badge--aydinlatma {
+            /* Aydinlatma kategorisinin rengini belirler */
+
+            background: #fef3c7;
+            /* Arka plan rengini belirler */
+
+            color: #b45309;
+            /* Yazi rengini belirler */
+        }
+
+        .badge--seramik {
+            /* Mutfak kategorisinde kullanilan etiketi belirler */
+
+            background: #d1fae5;
+            /* Arka plan rengini belirler */
+
+            color: #065f46;
+            /* Yazi rengini belirler */
+        }
+
+        .btn-del {
+            /* Sil butonunu duzenler */
+
+            background: transparent;
+            /* Arka plani saydam yapar */
+
+            border: 1px solid var(--border);
+            /* Buton kenarligini ekler */
+
+            color: var(--muted);
+            /* Buton yazisinin rengini belirler */
+
+            font-size: 11px;
+            /* Buton yazi boyutunu belirler */
+
+            padding: 4px 8px;
+            /* Buton ic boslugunu ayarlar */
+
+            border-radius: 4px;
+            /* Buton koselerini yuvarlar */
+
+            cursor: pointer;
+            /* Fare imlecini buton seklinde gosterir */
+        }
+
+        .btn-del:hover {
+            /* Fare sil butonunun uzerine gelince calisir */
+
+            background: #ef4444;
+            /* Buton arka planini kirmizi yapar */
+
+            color: #fff;
+            /* Yaziyi beyaz yapar */
+
+            border-color: #ef4444;
+            /* Kenarligi da kirmizi yapar */
+        }
+    </style>
+    <!-- CSS kodlarinin sonu -->
+</head>
+
+<body>
+    <!-- Sayfanin gorunen kismi -->
+
+    <div class="kokpit">
+        <!-- Ana kokpit kutusu -->
+
+        <header class="header">
+            <!-- Sayfanin ust baslik alani -->
+
+            <span class="header__tag">Sipariş Takip</span>
+            <!-- Ust etiketi gosterir -->
+
+            <h1 class="header__title">Sipariş Yönetim Kokpiti</h1>
+            <!-- Ana sayfa basligini gosterir -->
+        </header>
+
+        <section class="kpi-grid">
+            <!-- KPI kartlarinin bulundugu alan -->
+
+            <div class="kpi-card">
+                <!-- Siparis sayisi karti -->
+
+                <span>Kayıtlı sipariş</span>
+                <!-- Kart aciklamasini gosterir -->
+
+                <h3 id="kpiCount">0</h3>
+                <!-- Siparis sayisini gosterir -->
+            </div>
+
+            <div class="kpi-card">
+                <!-- Toplam tutar karti -->
+
+                <span>Toplam Sipariş Tutar</span>
+                <!-- Kart aciklamasini gosterir -->
+
+                <h3 id="kpiTotal">0 ₺</h3>
+                <!-- Toplam siparis tutarini gosterir -->
+            </div>
+
+            <div class="kpi-card">
+                <!-- Ortalama fiyat karti -->
+
+                <span>Ortalama Ürün Fiyatı</span>
+                <!-- Kart aciklamasini gosterir -->
+
+                <h3 id="kpiAvg">0 ₺</h3>
+                <!-- Ortalama fiyati gosterir -->
+            </div>
+        </section>
+
+        <main class="layout">
+            <!-- Form ve liste bolumlerini tutar -->
+
+            <section class="panel">
+                <!-- Yeni siparis formunun bulundugu panel -->
+
+                <h4>Yeni sipariş kaydı</h4>
+                <!-- Form basligini gosterir -->
+
+                <form id="orderForm">
+                    <!-- Yeni siparis formunu baslatir -->
+
+                    <div class="field">
+                        <!-- Urun adi alanini tutar -->
+
+                        <label for="prodName">Ürün Adı</label>
+                        <!-- Urun adi etiketini gosterir -->
+
+                        <input type="text" id="prodName" placeholder="Sehpa" required>
+                        <!-- Urun adinin girilecegi alan -->
+                    </div>
+
+                    <div class="field">
+                        <!-- Kategori alanini tutar -->
+
+                        <label for="prodCat">Kategori</label>
+                        <!-- Kategori etiketini gosterir -->
+
+                        <select name="prodCat" id="prodCat">
+                            <!-- Kategori secim alanini baslatir -->
+
+                            <option value="Mobilya">Mobilya</option>
+                            <!-- Mobilya secenegini gosterir -->
+
+                            <option value="Aydınlatma">Aydınlatma</option>
+                            <!-- Aydinlatma secenegini gosterir -->
+
+                            <option value="Mutfak">Mutfak</option>
+                            <!-- Mutfak secenegini gosterir -->
+                        </select>
+                        <!-- Kategori secim alanini bitirir -->
+                    </div>
+
+                    <div class="field">
+                        <!-- Fiyat alanini tutar -->
+
+                        <label for="prodPrice">Fiyat</label>
+                        <!-- Fiyat etiketini gosterir -->
+
+                        <input type="number" id="prodPrice" value="3250" min="100" step="50" required>
+                        <!-- Urun fiyatinin girilecegi alan -->
+                    </div>
+
+                    <button type="submit" class="btn-submit">Siparişi Kaydet</button>
+                    <!-- Formu gonderen buton -->
+                </form>
+                <!-- Siparis formunun sonu -->
+            </section>
+
+            <section class="panel">
+                <!-- Urun listesinin bulundugu panel -->
+
+                <div class="filter-bar">
+                    <!-- Filtre alanlarini tutar -->
+
+                    <input type="text" id="searchInput" class="field" style="margin-bottom: 0;"
+                        placeholder="Ürün Adına Göre Filtrele">
+                    <!-- Urun adına gore arama yapar -->
+
+                    <select id="categoryFilter" style="width: 130px; font-size: 12px;padding: 6px;">
+                        <!-- Kategori filtreleme alanidir -->
+
+                        <option value="ALL">Tüm Kategoriler</option>
+                        <!-- Tum kategorileri gosterir -->
+
+                        <option value="Mobilya">Mobilya</option>
+                        <!-- Mobilya filtresidir -->
+
+                        <option value="Aydınlatma">Aydınlatma</option>
+                        <!-- Aydinlatma filtresidir -->
+
+                        <option value="Mutfak">Mutfak</option>
+                        <!-- Mutfak filtresidir -->
+                    </select>
+                    <!-- Kategori filtresinin sonu -->
+                </div>
+
+                <div id="orderContainer" class="order-list">
+                    <!--Dinamik olarak elemanlar buraya basılacak /  eklenecek-->
+                    <!-- Siparisler JavaScript ile buraya eklenir -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // JavaScript kodlarinin baslangici
+
+        let orders = [
+            // Baslangictaki siparisleri tutar
+
+            { id: 1, name: "Sehpa", category: "Mobilya", price: 6500 },
+            // Birinci siparis bilgisi
+
+            { id: 2, name: "Abajür", category: "Aydınlatma", price: 7500 },
+            // Ikinci siparis bilgisi
+
+            { id: 3, name: "Koltuk", category: "Mobilya", price: 8500 },
+            // Ucuncu siparis bilgisi
+
+            { id: 4, name: "Bulaşık Makinası", category: "Mutfak", price: 10000 },
+            // Dorduncu siparis bilgisi
+
+            { id: 5, name: "Ocak", category: "Mutfak", price: 15000 }
+            // Besinci siparis bilgisi
+        ];
+
+        //dom elementleri toplayalım
+        // HTML elemanlarini degiskenlere alir
+
+        const orderContainer = document.getElementById('orderContainer');
+        // Siparislerin gosterilecegi alani alir
+
+        const orderForm = document.getElementById('orderForm');
+        // Siparis formunu alir
+
+        const searchInput = document.getElementById('searchInput');
+        // Arama kutusunu alir
+
+        const categoryFilter = document.getElementById('categoryFilter');
+        // Kategori filtresini alir
+
+        const kpiCount = document.getElementById('kpiCount');
+        // Siparis sayisi alanini alir
+
+        const kpiTotal = document.getElementById('kpiTotal');
+        // Toplam tutar alanini alir
+
+        const kpiAvg = document.getElementById('kpiAvg');
+        // Ortalama fiyat alanini alir
+
+
+        const updateKPIs = (dataList) => {
+            // KPI bilgilerini gunceller
+
+            kpiCount.textContent = dataList.length;
+            // Listedeki urun sayisini yazar
+
+            if (dataList.length === 0) {
+                // Liste bos mu kontrol eder
+
+                kpiTotal.textContent = "0 ₺";
+                // Toplam tutari sifirlar
+
+                kpiAvg.textContent = "0 ₺";
+                // Ortalama fiyati sifirlar
+
+                return;
+                // Fonksiyondan cikar
+            }
+
+            //Toplam Tutar v(.reduce)
+            // Toplam fiyati hesaplar
+
+            const total = dataList.reduce((acc, curr) => acc + curr.price, 0);
+            // Tum urun fiyatlarini toplar
+
+            kpiTotal.textContent = `${total.toLocaleString("tr-TR")} ₺`;
+            // Toplam fiyati ekrana yazar
+
+            //Ortalama Fiyat (.reduce)
+            // Ortalama fiyati hesaplar
+
+            const avg = total / dataList.length;
+            // Toplam fiyati urun sayisina boler
+
+            kpiAvg.textContent = `${Math.round(avg).toLocaleString("tr-TR")} ₺`;
+            // Ortalama fiyati ekrana yazar
+
+        }
+
+
+        //Filtreleme bölümü (dinamik dom / Render Motoru)
+        // Listeyi olusturan fonksiyon
+
+        const renderOrders = () => {
+            // Siparis listesini ekrana basar
+
+            const term = searchInput.value.toLowerCase().trim();
+            // Arama kutusundaki metni alir
+
+            const selectedCat = categoryFilter.value;
+            // Secilen kategoriyi alir
+
+
+            //filtreleme bölümü
+            // Siparisleri filtreler
+
+            const filtered = orders.filter(order => {
+                // Siparis listesini gezer
+
+                const matchesName = order.name.toLowerCase().includes(term);
+                // Urun adinda aranan kelime var mi kontrol eder
+
+                const mathesCategory = selectedCat === "ALL" || order.category === selectedCat;
+                // Kategori filtresini kontrol eder
+
+                return matchesName && mathesCategory;
+                // Iki filtre de uygunsa urunu dondurur
+            });
+
+            orderContainer.innerHTML = "";
+            // Onceki listeyi temizler
+
+            if (filtered.length === 0) {
+                // Filtre sonucunu kontrol eder
+
+                orderContainer.innerHTML = `
+                <div style="padding:24px; text-align:center; color:var(--muted);font-size:12px">
+                    Kriterlere Uygun Ürün Bulunamadı
+                    </div>
+                `;
+                // Uygun urun yoksa mesaj gosterir
+
+                updateKPIs([]);
+                // KPI bilgilerini sifirlar
+
+                return;
+                // Fonksiyondan cikar
+            }
+
+            //dinamik element üretim
+            // Liste elemanlarini dinamik olusturur
+
+            filtered.forEach(order => {
+                // Filtrelenen her siparisi gezer
+
+                const item = document.createElement("article");
+                // Yeni bir article elementi olusturur
+
+                item.className = "order-item";
+                // Olusturulan elemana CSS sinifi verir
+
+                item.setAttribute("data-id", order.id);
+                // Urunun id bilgisini elemana ekler
+
+                const badgeClass = order.category === "Mobilya"
+                    // Kategorinin mobilya olup olmadigini kontrol eder
+
+                    ? "badge--mobilya"
+                    // Mobilya ise bu sinifi kullanir
+
+                    : order.category === "Aydınlatma"
+                        // Aydinlatma olup olmadigini kontrol eder
+
+                        ? "badge--aydinlatma"
+                        // Aydinlatma ise bu sinifi kullanir
+
+                        : "badge--seramik";
+                        // Diger kategorilerde bu sinifi kullanir
+
+                item.innerHTML = `
+                <div>
+                    <h5>${order.name}</h5>
+                    <p>Birim Fiyat: ${order.price.toLocaleString("tr-TR")} ₺</p>
+                </div>
+                <div class="meta-box">
+                    <span class="badge ${badgeClass}">${order.category}</span>
+                    <button class="btn-del" data-action="delete">Sil</button>
+                </div>                
+                
+                `;
+                // Siparis kartinin HTML yapisini olusturur
+
+                orderContainer.appendChild(item);
+                // Olusturulan siparisi listeye ekler
+
+                updateKPIs(filtered);
+                // KPI bilgilerini gunceller
+            })
+        }
+
+
+        //formdan yeni ürün ekleme
+        // Formdan yeni urun ekleme islemini baslatir
+
+        orderForm.addEventListener("submit", (event) => {
+            // Form gonderilince calisir
+
+            event.preventDefault();
+            // Sayfanin yenilenmesini engeller
+
+            const name = document.getElementById("prodName").value;
+            // Girilen urun adini alir
+
+            const category = document.getElementById("prodCat").value;
+            // Secilen kategoriyi alir
+
+            const price = Number(document.getElementById("prodPrice").value);
+            // Girilen fiyati sayiya cevirir
+
+            const newOrder = {
+                // Yeni urun nesnesini olusturur
+
+                id: orders.length + 1,
+                // Yeni urune id verir
+
+                name: name,
+                // Urun adini nesneye ekler
+
+                category: category,
+                // Kategoriyi nesneye ekler
+
+                price: price
+                // Fiyati nesneye ekler
+            };
+
+            orders.push(newOrder);
+            // Yeni urunu listeye ekler
+
+            orderForm.reset();
+            // Form alanlarini temizler
+
+            renderOrders();
+            // Listeyi tekrar gosterir
+        });
+
+
+        //listedeki ürünü silme
+        // Listedeki urunu silme islemini baslatir
+
+        orderContainer.addEventListener("click", (event) => {
+            // Liste icindeki tiklamalari kontrol eder
+
+            if (event.target.dataset.action === "delete") {
+                // Tiklanan eleman sil butonu mu kontrol eder
+
+                const item = event.target.closest(".order-item");
+                // Silinecek urunun kartini bulur
+
+                const id = Number(item.dataset.id);
+                // Karttaki id bilgisini alir
+
+                orders = orders.filter(order => order.id !== id);
+                // Secilen urunu listeden cikarir
+
+                renderOrders();
+                // Listeyi tekrar gunceller
+            }
+        });
+
+
+        searchInput.addEventListener("input", renderOrders);
+        // Arama yapildiginda listeyi yeniler
+
+        categoryFilter.addEventListener("change", renderOrders);
+        // Kategori degistiginde listeyi yeniler
+
+        renderOrders();
+        // Sayfa acildiginda listeyi gosterir
+    </script>
+
+</body>
+
+</html>
+
