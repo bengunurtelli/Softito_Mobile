@@ -218,8 +218,7 @@ class KlinikYoneticisi {
   // Gün sonu raporunu ekrana yazdırıyoruz.
   void gunSonuRaporuYazdir() {
     print("Günlük Seans ve İşlem Çizelgesi"); // Rapor başlığı.
-    print("---------------------------------------"); // Ayırıcı çizgi.
-
+    print("---------------------------------------");
     // Tablo sütunlarının başlıklarını yazdırıyoruz.
     print(
       "${'Kod'.padRight((10))} | "
